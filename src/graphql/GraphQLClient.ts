@@ -1,21 +1,30 @@
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
+import { ApolloLink } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloQueryResult, OperationVariables } from 'apollo-client/core/types';
 import { QueryOptions } from 'apollo-client/core/watchQueryOptions';
+import gql from 'graphql-tag';
 import { IGraphQLClient } from './IGraphQLClient';
+import { TBuildQuery } from './TBuildQuery';
 
-// eslint-disable-next-line import/prefer-default-export
 export class GraphQLClient implements IGraphQLClient {
   httpLink: HttpLink;
 
-  errorLink: any;
+  errorLink: ApolloLink;
 
-  instance: ApolloClient<NormalizedCacheObject>
+  instance: ApolloClient<NormalizedCacheObject>;
+
+  buildQuery: TBuildQuery;
 
   constructor() {
+    this.buildQuery = gql;
+
+    // TODO @lepyavko.d - replace with process.env variable
     this.httpLink = new HttpLink({ uri: 'https://swapi-graphql.netlify.app/.netlify/functions/index' });
+
+    // TODO @lepyavko.d - add some global error handler
     this.errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) => console.log(
@@ -24,6 +33,7 @@ export class GraphQLClient implements IGraphQLClient {
       }
       if (networkError) console.log(`[Network error]: ${networkError}`);
     });
+
     this.instance = new ApolloClient({
       link: this.errorLink.concat(this.httpLink),
       cache: new InMemoryCache(),
