@@ -31,7 +31,8 @@ export class GraphQLClient implements IGraphQLClient {
     });
   }
 
-  query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables>): Promise<ApolloQueryResult<T>> {
+  query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables>)
+    : Promise<ApolloQueryResult<T>> {
     return this.instance.query(options);
   }
 }

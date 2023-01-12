@@ -8,5 +8,6 @@ export interface IGraphQLClient {
   instance: ApolloClient<NormalizedCacheObject>;
   httpLink: HttpLink;
   errorLink: unknown;
-  query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables>): Promise<ApolloQueryResult<T>>;
+  query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables>)
+    : Promise<ApolloQueryResult<T>>;
 }
