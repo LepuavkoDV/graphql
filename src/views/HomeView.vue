@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import { apolloClient, EXAMPLE_QUERY } from '@/graphql';
+import { apolloClient, FILM_QUERY } from '@/graphql';
 
-const res = await apolloClient.query({ query: EXAMPLE_QUERY });
+const res = await apolloClient.query({ query: FILM_QUERY, variables: { id: 'ZmlsbXM6MQ==' } });
 console.log(res);
 </script>

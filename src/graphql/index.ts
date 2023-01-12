@@ -21,7 +21,7 @@ const apolloClient = new ApolloClient({
 
 const EXAMPLE_QUERY = gql`
   query getAllFilms {
-    allFilms1 {
+    allFilms {
       films {
         title
         director
@@ -40,7 +40,20 @@ const EXAMPLE_QUERY = gql`
   }
 `;
 
+const FILM_QUERY = gql`
+  query getFilm($id: ID!) {
+    film(id: $id) {
+      created
+      director
+      edited
+      episodeID
+      id
+    }
+  }
+`;
+
 export {
   apolloClient,
   EXAMPLE_QUERY,
+  FILM_QUERY,
 };
